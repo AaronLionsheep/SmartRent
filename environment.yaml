@@ -1,0 +1,11 @@
+name: indigo-smartrent-dev
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python ~=3.11.0
+  - ruff
+  - pytest
+  - pip
+  - pip:
+    - -r SmartRent.indigoPlugin/Contents/Server\ Plugin/requirements.txt
