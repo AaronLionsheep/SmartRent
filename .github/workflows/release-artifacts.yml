@@ -1,0 +1,17 @@
+name: Add Release Artifacts
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build plugin artifact
+        run: zip -r SmartRent.indigoPlugin.zip SmartRent.indigoPlugin
+
+      - name: Upload Release Asset
+        run: gh release upload ${{ github.ref_name }} SmartRent.indigoPlugin.zip
