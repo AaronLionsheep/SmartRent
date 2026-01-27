@@ -4,7 +4,7 @@
 <dict>
 	<key>PluginVersion</key>
 	<!-- x-release-please-start-version -->
-	<string>1.0.0</string>
+	<string>1.0.1</string>
 	<!-- x-release-please-end -->
 	<key>ServerApiVersion</key>
 	<string>3.4</string>
