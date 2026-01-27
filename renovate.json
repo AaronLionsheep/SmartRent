@@ -3,5 +3,12 @@
   "extends": [
     "config:recommended",
     "helpers:pinGitHubActionDigests"
+  ],
+  "packageRules": [
+    {
+      "matchManagers": ["pip_requirements"],
+      "commitMessage": "{customType}({depName}): update {depName} to v{newVersion}",
+      "customType": "deps"
+    }
   ]
 }
