@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.2](https://github.com/AaronLionsheep/SmartRent/compare/v1.0.1...v1.0.2) (2026-02-22)
+
+
+### Miscellaneous Chores
+
+* **deps:** update actions/checkout digest to de0fac2 ([3b95672](https://github.com/AaronLionsheep/SmartRent/commit/3b956727fb52b7fdb367863442f1ab58d042585a))
+* **deps:** update actions/checkout digest to de0fac2 ([#22](https://github.com/AaronLionsheep/SmartRent/issues/22)) ([d157e73](https://github.com/AaronLionsheep/SmartRent/commit/d157e735329bb2eb81c2487eb072eeb2ed280347))
+
 ## [1.0.1](https://github.com/AaronLionsheep/SmartRent/compare/v1.0.0...v1.0.1) (2026-01-27)
 
 
