@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.0.2](https://github.com/AaronLionsheep/SmartRent/compare/v1.0.1...v1.0.2) (2026-03-14)
+
+
+### Miscellaneous Chores
+
+* **deps:** update actions/checkout digest to de0fac2 ([3b95672](https://github.com/AaronLionsheep/SmartRent/commit/3b956727fb52b7fdb367863442f1ab58d042585a))
+* **deps:** update actions/checkout digest to de0fac2 ([#22](https://github.com/AaronLionsheep/SmartRent/issues/22)) ([d157e73](https://github.com/AaronLionsheep/SmartRent/commit/d157e735329bb2eb81c2487eb072eeb2ed280347))
+* **deps:** update marocchino/sticky-pull-request-comment action to v3 ([f6e7ad4](https://github.com/AaronLionsheep/SmartRent/commit/f6e7ad459561b1fb3500bd41e583f7b3ffd159c3))
+* **deps:** update marocchino/sticky-pull-request-comment action to v3 ([#28](https://github.com/AaronLionsheep/SmartRent/issues/28)) ([32cede2](https://github.com/AaronLionsheep/SmartRent/commit/32cede2d8965a8dd65d48da2383105bf209a78f7))
+
 ## [1.0.1](https://github.com/AaronLionsheep/SmartRent/compare/v1.0.0...v1.0.1) (2026-01-27)
 
 
