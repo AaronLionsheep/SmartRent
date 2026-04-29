@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.0.3](https://github.com/AaronLionsheep/SmartRent/compare/v1.0.2...v1.0.3) (2026-04-29)
+
+
+### Miscellaneous Chores
+
+* **deps:** Develop locally with Python 3.13 ([c2cee16](https://github.com/AaronLionsheep/SmartRent/commit/c2cee169c64bdc2c43db559eced542ed1acdf442))
+* **deps:** Develop locally with Python 3.13 ([#32](https://github.com/AaronLionsheep/SmartRent/issues/32)) ([813c954](https://github.com/AaronLionsheep/SmartRent/commit/813c9540a66588e685e792bc212ab683beaa40d1))
+* **deps:** update dependency more-itertools to v11 ([7c7f11b](https://github.com/AaronLionsheep/SmartRent/commit/7c7f11b01082fe87e3d223aa6bc1b022c69cf370))
+* **deps:** update dependency more-itertools to v11 ([#29](https://github.com/AaronLionsheep/SmartRent/issues/29)) ([bcbbac7](https://github.com/AaronLionsheep/SmartRent/commit/bcbbac70cd85184920bbe95e24e9772a2ae7f4ad))
+* **deps:** update googleapis/release-please-action action to v5 ([63c8e49](https://github.com/AaronLionsheep/SmartRent/commit/63c8e49146b1202e612b725c8a52260df884546e))
+* **deps:** update googleapis/release-please-action action to v5 ([#31](https://github.com/AaronLionsheep/SmartRent/issues/31)) ([7e3f038](https://github.com/AaronLionsheep/SmartRent/commit/7e3f038aa8b23dbcf75748a7614882daaea050fd))
+* **deps:** update googleapis/release-please-action digest to 5c625bf ([aed287c](https://github.com/AaronLionsheep/SmartRent/commit/aed287c714f10576b80e3d455878e0ce173ee2dd))
+* **deps:** update googleapis/release-please-action digest to 5c625bf ([#30](https://github.com/AaronLionsheep/SmartRent/issues/30)) ([d9fc87f](https://github.com/AaronLionsheep/SmartRent/commit/d9fc87f1b1ac07d048df0e151bb6b53ecdbd6c4d))
+
 ## [1.0.2](https://github.com/AaronLionsheep/SmartRent/compare/v1.0.1...v1.0.2) (2026-03-14)
 
 
