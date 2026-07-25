@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.0.4](https://github.com/AaronLionsheep/SmartRent/compare/v1.0.3...v1.0.4) (2026-07-25)
+
+
+### Miscellaneous Chores
+
+* **deps:** pin dependencies ([d0d08b0](https://github.com/AaronLionsheep/SmartRent/commit/d0d08b0fec14214895d48faefc1bf639b1d88f28))
+* **deps:** pin dependencies ([#40](https://github.com/AaronLionsheep/SmartRent/issues/40)) ([f3cfbd7](https://github.com/AaronLionsheep/SmartRent/commit/f3cfbd775f1c9db7d3fbd6c6143c09265ac86633))
+* **deps:** update actions/checkout action to v7 ([4a77e9f](https://github.com/AaronLionsheep/SmartRent/commit/4a77e9f6bc7d41c6fd0878be1683a4bb2a843c07))
+* **deps:** update actions/checkout action to v7 ([e156d42](https://github.com/AaronLionsheep/SmartRent/commit/e156d42f0d61f248faf48be77143b5fd104912c5))
+* **deps:** update actions/checkout action to v7 ([#37](https://github.com/AaronLionsheep/SmartRent/issues/37)) ([edc9c76](https://github.com/AaronLionsheep/SmartRent/commit/edc9c76e4531c47a5a79a56b97e23d47440f47a8))
+* **deps:** update actions/checkout action to v7 ([#41](https://github.com/AaronLionsheep/SmartRent/issues/41)) ([12dcdc7](https://github.com/AaronLionsheep/SmartRent/commit/12dcdc77803dea4516665d6aa4e4e8727e5a44d6))
+* **deps:** update actions/setup-python action to v7 ([94f37ed](https://github.com/AaronLionsheep/SmartRent/commit/94f37ed458a40c5b973b712d19510e165813c0f7))
+* **deps:** update actions/setup-python action to v7 ([#42](https://github.com/AaronLionsheep/SmartRent/issues/42)) ([dc31bc4](https://github.com/AaronLionsheep/SmartRent/commit/dc31bc4b240cb15eb60a758b3686a29482e84cc8))
+* **deps:** update dependency more-itertools to v11.1.0 ([7a5ef70](https://github.com/AaronLionsheep/SmartRent/commit/7a5ef7056598a80d6499e8f9fc7aa55d39a1d6a5))
+* **deps:** update dependency more-itertools to v11.1.0 ([#34](https://github.com/AaronLionsheep/SmartRent/issues/34)) ([63a06fe](https://github.com/AaronLionsheep/SmartRent/commit/63a06fe6cead953b75f97ad964c0c10c23775748))
+* **deps:** update dependency pyotp to v2.10.0 ([4d23150](https://github.com/AaronLionsheep/SmartRent/commit/4d2315090d528b4fb37ca58b1df82683d4d96f54))
+* **deps:** update dependency pyotp to v2.10.0 ([#36](https://github.com/AaronLionsheep/SmartRent/issues/36)) ([82cba4f](https://github.com/AaronLionsheep/SmartRent/commit/82cba4f3623b768c910ab18dad90e255b3b538d7))
+
 ## [1.0.3](https://github.com/AaronLionsheep/SmartRent/compare/v1.0.2...v1.0.3) (2026-04-29)
 
 
