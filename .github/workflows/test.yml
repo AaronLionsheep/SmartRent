@@ -8,13 +8,17 @@ permissions:
 
 jobs:
   test:
-    runs-on: macos-26-intel
+    strategy:
+      matrix:
+        os: [macos-26, macos-26-intel]
+        python: [3.11, 3.13]
+    runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v4
-    - name: Set up Python 3.13
+    - name: Set up Python
       uses: actions/setup-python@v3
       with:
-        python-version: "3.13"
+        python-version: ${{ matrix.python }}
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
