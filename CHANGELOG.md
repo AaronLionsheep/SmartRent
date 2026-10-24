@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.0.5](https://github.com/AaronLionsheep/SmartRent/compare/v1.0.4...v1.0.5) (2026-10-24)
+
+
+### Miscellaneous Chores
+
+* **deps:** update actions/setup-python digest to 6d4fd22 ([f927231](https://github.com/AaronLionsheep/SmartRent/commit/f927231a6fc4c2762d856f4b41c3750ef5d8d3b0))
+* **deps:** update actions/setup-python digest to 6d4fd22 ([#45](https://github.com/AaronLionsheep/SmartRent/issues/45)) ([2d4eff4](https://github.com/AaronLionsheep/SmartRent/commit/2d4eff4926caef6638f547f48ee3b14e5d1d7be5))
+* **deps:** update dependency more-itertools to v11.2.1 ([42989dd](https://github.com/AaronLionsheep/SmartRent/commit/42989dd795b2632d22d936c26c1d69ff0e2bb494))
+* **deps:** update dependency more-itertools to v11.2.1 ([#43](https://github.com/AaronLionsheep/SmartRent/issues/43)) ([647f2ee](https://github.com/AaronLionsheep/SmartRent/commit/647f2eed103a03647ebdc71ecf33c4a1697e09d4))
+
+
+### Docs
+
+* Add documentation ([#47](https://github.com/AaronLionsheep/SmartRent/issues/47)) ([768c8c6](https://github.com/AaronLionsheep/SmartRent/commit/768c8c6054b904aefdf25b8b51fc5562d7a74bf1))
+
 ## [1.0.4](https://github.com/AaronLionsheep/SmartRent/compare/v1.0.3...v1.0.4) (2026-07-25)
 
 
