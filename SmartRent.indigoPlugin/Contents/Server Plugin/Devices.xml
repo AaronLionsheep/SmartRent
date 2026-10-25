@@ -42,6 +42,7 @@
             <Field type="checkbox" id="SupportsStatusRequest" defaultValue="true" hidden="true" />
             <Field type="checkbox" id="SupportsOnState" defaultValue="false" hidden="true" />
             <Field type="checkbox" id="AllowOnStateChange" defaultValue="false" hidden="true" />
+						<Field type="checkbox" id="IsLockSubType" defaultValue="true" hidden="true" />
 
             <Field id="smartrent-device" type="menu">
                 <Label>SmartRent Device:</Label>
