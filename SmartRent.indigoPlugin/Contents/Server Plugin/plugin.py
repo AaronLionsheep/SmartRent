@@ -81,6 +81,7 @@ class Plugin(indigo.PluginBase):
 
         self.loop = None
         self._async_thread = None
+        self.api = None
         
         self.initialize_asyncio()
 
@@ -356,6 +357,9 @@ class Plugin(indigo.PluginBase):
         ------
         ValueError: When there is no associated SmartRent device.
         """
+        if self.api is None:
+            raise ValueError("No connection to SmartRent API")
+        
         smartrent_device_id = int(device.pluginProps.get("smartrent-device", 0))
         smartrent_devices = self.api.get_device_list()
         return first(filter(lambda d: d._device_id == smartrent_device_id, smartrent_devices))
