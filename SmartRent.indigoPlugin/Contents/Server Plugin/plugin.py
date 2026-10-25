@@ -442,6 +442,12 @@ class Plugin(indigo.PluginBase):
             if len(valuesDict.get(field, "")) == 0:
                 errors[field] = "A value is required!"
 
+        if "tfa-secret" not in errors:
+            try:
+                TOTP(valuesDict["tfa-secret"]).now()
+            except ValueError as e:
+                errors["tfa-secret"] = f"Invalid 2FA secret: {e}"
+
         if len(errors) == 0:
             return True
         else:
@@ -553,8 +559,19 @@ class Plugin(indigo.PluginBase):
         """
         Callback to check if the 2FA secret generates the expected code.
         """
-        totp = TOTP(valuesDict.get("tfa-secret"))
-        valuesDict["tfa-code"] = totp.now()
+        valuesDict["tfa-code"] = ""
+        secret = valuesDict.get("tfa-secret", "")
+
+        errors = indigo.Dict()
+        if not secret:
+            errors["tfa-secret"] = "A value is required!"
+            return valuesDict, errors
+
+        try:
+            valuesDict["tfa-code"] = TOTP(secret).now()
+        except ValueError as e:
+            errors["tfa-secret"] = f"Invalid 2FA secret: {e}"
+            return valuesDict, errors
 
         return valuesDict
 
