@@ -20,6 +20,7 @@ from smartrent import (
     LeakSensor as SmartRentLeakSensor
 )
 from smartrent.device import Device as SmartRentDevice
+from smartrent.utils import InvalidAuthError
 
 SMARTRENT_INDIGO_HVAC_FAN_MODES = {
     "on": indigo.kFanMode.AlwaysOn,
@@ -109,7 +110,8 @@ class Plugin(indigo.PluginBase):
             # We need a custom session that will use our loop and custom JSON serializer to generate 2FA codes when needed
             smartrent_session = aiohttp.ClientSession(
                 loop=self.loop,
-                json_serialize=partial(dumps, cls=OTPEncoder)
+                json_serialize=partial(dumps, cls=OTPEncoder),
+                timeout=aiohttp.ClientTimeout(total=30)
             )
             api_login = self.run(async_login(
                 email=self.email,
@@ -117,8 +119,23 @@ class Plugin(indigo.PluginBase):
                 aiohttp_session=smartrent_session,
                 tfa_token=self.tfa_token
             ))
-            self.api = api_login.result()
-            self.logger.info("Successfully connected to SmartRent API!")
+            
+            try:
+                self.api = api_login.result(timeout=60)
+            except InvalidAuthError:
+                self.logger.error("SmartRent rejected the login. Check your email, password, and 2FA secret.")
+            except aiohttp.ClientError as e:
+                self.logger.error(f"Couldn't reach SmartRent: {e}")
+            except TimeoutError:
+                api_login.cancel()
+                self.logger.error("Timed out connecting to SmartRent.")
+            except Exception:
+                self.logger.error(f"Unexpected error: {e}")
+            else:
+                self.logger.info("Successfully connected to SmartRent API!")
+            finally:
+                if self.api is None:
+                    self.run(smartrent_session.close())
 
     def shutdown(self):
         """
