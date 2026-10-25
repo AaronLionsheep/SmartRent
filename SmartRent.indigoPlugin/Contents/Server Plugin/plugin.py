@@ -287,7 +287,7 @@ class Plugin(indigo.PluginBase):
         if device.deviceTypeId == "lock":
             # lock devices can only be represented by the SmartRent DoorLock class
             if not isinstance(smartrent_device, SmartRentDoorLock):
-                self.logger.error(f"The SmartRent device associated with '{device.name}' was not found to be a Thermostat!")
+                self.logger.error(f"The SmartRent device associated with '{device.name}' was not found to be a SmartRent Door Lock!")
                 return
 
             if action.deviceAction == indigo.kDeviceAction.TurnOn:
@@ -319,7 +319,7 @@ class Plugin(indigo.PluginBase):
         """
         smartrent_device = self.get_smartrent_device_for_device(device)
         if not isinstance(smartrent_device, SmartRentThermostat):
-            self.logger.error(f"The SmartRent device associated with '{device.name}' was not found to be a Thermostat!")
+            self.logger.error(f"The SmartRent device associated with '{device.name}' was not found to be a SmartRent Thermostat!")
             return
 
         if action.thermostatAction == indigo.kThermostatAction.SetHvacMode:
@@ -407,7 +407,7 @@ class Plugin(indigo.PluginBase):
             })
         elif device.deviceTypeId == "lock":
             if not isinstance(smartrent_device, SmartRentDoorLock):
-                raise TypeError(f"Thermostat '{device.name}' not linked with a SmartRent lock!")
+                raise TypeError(f"Lock '{device.name}' not linked with a SmartRent lock!")
 
             state_updates.update({
                 "batteryLevel": smartrent_device.get_battery_level(),
