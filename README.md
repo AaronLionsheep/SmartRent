@@ -50,6 +50,8 @@ Use the **Check 2FA code** button to confirm the secret is correct: the code it 
 3. Select the matching device from the **SmartRent Device** menu, which lists the devices on your SmartRent account of that kind.
 4. Save. The device will populate with its current state and then update live.
 
+> **Note:** The plugin loads your SmartRent device list when it starts. If you add a device to your SmartRent account later, reload the plugin (**Plugins → SmartRent → Reload**) before it will appear in the **SmartRent Device** menu.
+
 ### Door Lock
 
 Door locks are Indigo relay devices with the lock subtype. **Turn On** locks the door and **Turn Off** unlocks it, so the standard Indigo lock/unlock controls and actions work as expected.
@@ -99,6 +101,7 @@ See the Indigo [scripting tutorial](https://www.indigodomo.com/docs/plugin_scrip
 - **"The email, password, and 2FA secrets are not configured!"**: open the plugin configuration and fill in all three fields, then reload the plugin.
 - **The SmartRent Device menu says "No connection to SmartRent API"**: the plugin couldn't log in. Check your credentials and use **Check 2FA code** to verify your secret, then reload the plugin.
 - **"No SmartRent device linked to …"**: edit the Indigo device and choose a device from the **SmartRent Device** menu.
+- **A device is missing from the SmartRent Device menu**: the device list is loaded when the plugin starts, so devices added to your SmartRent account afterward won't appear until you reload the plugin. Also check that you picked the right model: the menu only lists SmartRent devices of the selected kind (Door Lock or Thermostat).
 - **Something else**: set the log level to **Debug**, reproduce the problem, and include the relevant Indigo Event Log lines when asking for help.
 
 For help, post in the plugin's [Indigo forum](https://forums.indigodomo.com/viewforum.php?f=330) or open an [issue](https://github.com/AaronLionsheep/SmartRent/issues).
