@@ -129,8 +129,8 @@ class Plugin(indigo.PluginBase):
             except TimeoutError:
                 api_login.cancel()
                 self.logger.error("Timed out connecting to SmartRent.")
-            except Exception:
-                self.logger.error(f"Unexpected error: {e}")
+            except Exception as e:
+                self.logger.error(f"Unexpected error: {e}", exc_info=True)
             else:
                 self.logger.info("Successfully connected to SmartRent API!")
             finally:
