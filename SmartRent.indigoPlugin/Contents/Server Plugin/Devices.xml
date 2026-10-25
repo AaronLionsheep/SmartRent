@@ -21,6 +21,10 @@
                 <Label>SmartRent Device:</Label>
                 <List class="self" filter="thermostat" method="get_smartrent_devices"/>
             </Field>
+
+						<Field id="refresh-hint" type="label" fontSize="small" fontColor="darkgray">
+						    <Label>Don't see a new device? Reload the plugin to refresh the list.</Label>
+						</Field>
         </ConfigUI>
         <States>
             <State id="online">
@@ -43,6 +47,10 @@
                 <Label>SmartRent Device:</Label>
                 <List class="self" filter="lock" method="get_smartrent_devices"/>
             </Field>
+
+						<Field id="refresh-hint" type="label" fontSize="small" fontColor="darkgray">
+						    <Label>Don't see a new device? Reload the plugin to refresh the list.</Label>
+						</Field>
         </ConfigUI>
         <States>
             <State id="online">
