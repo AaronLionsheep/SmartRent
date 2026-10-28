@@ -1,23 +1,24 @@
-import indigo
-import logging
-import aiohttp
 import asyncio
+import logging
 import threading
-
-from functools import partial
-from more_itertools import first
-from json import JSONEncoder, dumps
-
-from typing import Any, TypeVar
 from collections.abc import Coroutine
 from concurrent.futures import Future
+from functools import partial
+from json import JSONEncoder, dumps
+from typing import Any, TypeVar
 
+import aiohttp
+import indigo  # pyright: ignore[reportMissingImports]
+from more_itertools import first
 from pyotp import TOTP
 from smartrent import (
-    async_login,
-    Thermostat as SmartRentThermostat,
     DoorLock as SmartRentDoorLock,
-    LeakSensor as SmartRentLeakSensor
+)
+from smartrent import (
+    Thermostat as SmartRentThermostat,
+)
+from smartrent import (
+    async_login,
 )
 from smartrent.device import Device as SmartRentDevice
 from smartrent.utils import InvalidAuthError
@@ -52,9 +53,10 @@ INDIGO_SMARTRENT_HVAC_MODES = {
 
 _T = TypeVar("_T")
 
-class OTP():
+
+class OTP:
     """A wrapper class to generate one-time-passcodes"""
-    
+
     def __init__(self, secret: str):
         self._totp = TOTP(secret)
 
@@ -63,27 +65,30 @@ class OTP():
 
     def __repr__(self):
         return str(self)
-    
+
+
 class OTPEncoder(JSONEncoder):
     """A custom JSON Encoder class that generates OTP codes at encode-time."""
 
     def default(self, o):
         if isinstance(o, OTP):
             return o.__str__()
-            
+
         return super().default(o)
 
+
 class Plugin(indigo.PluginBase):
-
     def __init__(self, pluginId, pluginDisplayName, pluginVersion, pluginPrefs):
-        indigo.PluginBase.__init__(self, pluginId, pluginDisplayName, pluginVersion, pluginPrefs)
+        indigo.PluginBase.__init__(
+            self, pluginId, pluginDisplayName, pluginVersion, pluginPrefs
+        )
 
-        self.setLogLevel(pluginPrefs.get('log-level', "info"))
+        self.setLogLevel(pluginPrefs.get("log-level", "info"))
 
         self.loop = None
         self._async_thread = None
         self.api = None
-        
+
         self.initialize_asyncio()
 
     ##########################################################################
@@ -102,35 +107,41 @@ class Plugin(indigo.PluginBase):
 
         # Alert when the plugin is not fully configured
         if not self.email or not self.password or not self.tfa_secret:
-            self.logger.error("The email, password, and 2FA secrets are not configured!")
+            self.logger.error(
+                "The email, password, and 2FA secrets are not configured!"
+            )
         else:
             self.tfa_token = OTP(self.tfa_secret)
-            
+
             self.logger.info("Connecting to SmartRent API...")
             # We need a custom session that will use our loop and custom JSON serializer to generate 2FA codes when needed
             smartrent_session = aiohttp.ClientSession(
                 loop=self.loop,
                 json_serialize=partial(dumps, cls=OTPEncoder),
-                timeout=aiohttp.ClientTimeout(total=30)
+                timeout=aiohttp.ClientTimeout(total=30),
             )
-            api_login = self.run(async_login(
-                email=self.email,
-                password=self.password,
-                aiohttp_session=smartrent_session,
-                tfa_token=self.tfa_token
-            ))
-            
+            api_login = self.run(
+                async_login(
+                    email=self.email,
+                    password=self.password,
+                    aiohttp_session=smartrent_session,
+                    tfa_token=self.tfa_token,
+                )
+            )
+
             try:
                 self.api = api_login.result(timeout=60)
             except InvalidAuthError:
-                self.logger.error("SmartRent rejected the login. Check your email, password, and 2FA secret.")
+                self.logger.error(
+                    "SmartRent rejected the login. Check your email, password, and 2FA secret."
+                )
             except aiohttp.ClientError as e:
                 self.logger.error(f"Couldn't reach SmartRent: {e}")
             except TimeoutError:
                 api_login.cancel()
                 self.logger.error("Timed out connecting to SmartRent.")
-            except Exception as e:
-                self.logger.error(f"Unexpected error: {e}", exc_info=True)
+            except Exception:
+                self.logger.exception("Unexpected error")
             else:
                 self.logger.info("Successfully connected to SmartRent API!")
             finally:
@@ -141,7 +152,7 @@ class Plugin(indigo.PluginBase):
         """
         Called by Indigo to shut down the plugin
         """
-        self.logger.debug(u"Stopping SmartRent...")
+        self.logger.debug("Stopping SmartRent...")
 
     ##########################################################################
     # MARK: asyncio
@@ -209,18 +220,20 @@ class Plugin(indigo.PluginBase):
         except ValueError:
             self.logger.error(f"No SmartRent device linked to '{device.name}'!")
             return False
-        
+
         # Update the indigo device with the current SmartRent state
-        self.update_device_from_smartrent(device=device, smartrent_device=smartrent_device)
+        self.update_device_from_smartrent(
+            device=device, smartrent_device=smartrent_device
+        )
 
         # Update the Indigo device on each SmartRent update
         update_handler = partial(
             self.update_device_from_smartrent,
             device=device,
-            smartrent_device=smartrent_device
+            smartrent_device=smartrent_device,
         )
         smartrent_device.set_update_callback(update_handler)
-        
+
         # A hack to run the updated initialization synchronously inside the asyncio thread
         async def _start_updater():
             smartrent_device.start_updater()
@@ -260,17 +273,19 @@ class Plugin(indigo.PluginBase):
         ----------
         original_device: Device
             The device before updates.
-        
+
         updated_device: Device
             The device after updates.
-        
+
         Returns
         -------
         changed: bool
             True or false whether the device had the communication properties changed.
         """
-        return original_device.pluginProps.get("smartrent-device") != updated_device.pluginProps.get("smartrent-device")
-    
+        return original_device.pluginProps.get(
+            "smartrent-device"
+        ) != updated_device.pluginProps.get("smartrent-device")
+
     ##########################################################################
     # MARK: Device Actions
     ##########################################################################
@@ -287,12 +302,14 @@ class Plugin(indigo.PluginBase):
         if device.deviceTypeId == "lock":
             # lock devices can only be represented by the SmartRent DoorLock class
             if not isinstance(smartrent_device, SmartRentDoorLock):
-                self.logger.error(f"The SmartRent device associated with '{device.name}' was not found to be a SmartRent Door Lock!")
+                self.logger.error(
+                    f"The SmartRent device associated with '{device.name}' was not found to be a SmartRent Door Lock!"
+                )
                 return
 
             if action.deviceAction == indigo.kDeviceAction.TurnOn:
                 self.run(smartrent_device.async_set_locked(True))
-            
+
             elif action.deviceAction == indigo.kDeviceAction.TurnOff:
                 self.run(smartrent_device.async_set_locked(False))
 
@@ -319,7 +336,9 @@ class Plugin(indigo.PluginBase):
         """
         smartrent_device = self.get_smartrent_device_for_device(device)
         if not isinstance(smartrent_device, SmartRentThermostat):
-            self.logger.error(f"The SmartRent device associated with '{device.name}' was not found to be a SmartRent Thermostat!")
+            self.logger.error(
+                f"The SmartRent device associated with '{device.name}' was not found to be a SmartRent Thermostat!"
+            )
             return
 
         if action.thermostatAction == indigo.kThermostatAction.SetHvacMode:
@@ -341,16 +360,32 @@ class Plugin(indigo.PluginBase):
             self.run(smartrent_device.async_set_heating_setpoint(action.actionValue))
 
         elif action.thermostatAction == indigo.kThermostatAction.DecreaseCoolSetpoint:
-            self.run(smartrent_device.async_set_cooling_setpoint(device.coolSetpoint - action.actionValue))
+            self.run(
+                smartrent_device.async_set_cooling_setpoint(
+                    device.coolSetpoint - action.actionValue
+                )
+            )
 
         elif action.thermostatAction == indigo.kThermostatAction.IncreaseCoolSetpoint:
-            self.run(smartrent_device.async_set_cooling_setpoint(device.coolSetpoint + action.actionValue))
+            self.run(
+                smartrent_device.async_set_cooling_setpoint(
+                    device.coolSetpoint + action.actionValue
+                )
+            )
 
         elif action.thermostatAction == indigo.kThermostatAction.DecreaseHeatSetpoint:
-            self.run(smartrent_device.async_set_heating_setpoint(device.heatSetpoint - action.actionValue))
+            self.run(
+                smartrent_device.async_set_heating_setpoint(
+                    device.heatSetpoint - action.actionValue
+                )
+            )
 
         elif action.thermostatAction == indigo.kThermostatAction.IncreaseHeatSetpoint:
-            self.run(smartrent_device.async_set_heating_setpoint(device.heatSetpoint + action.actionValue))
+            self.run(
+                smartrent_device.async_set_heating_setpoint(
+                    device.heatSetpoint + action.actionValue
+                )
+            )
 
     ##########################################################################
     # MARK: SmartRent
@@ -376,43 +411,67 @@ class Plugin(indigo.PluginBase):
         """
         if self.api is None:
             raise ValueError("No connection to SmartRent API")
-        
+
         smartrent_device_id = int(device.pluginProps.get("smartrent-device", 0))
         smartrent_devices = self.api.get_device_list()
-        return first(filter(lambda d: d._device_id == smartrent_device_id, smartrent_devices))
-    
-    def update_device_from_smartrent(self, device, smartrent_device: SmartRentDevice | None = None):
+        return first(
+            filter(lambda d: d._device_id == smartrent_device_id, smartrent_devices)
+        )
+
+    def update_device_from_smartrent(
+        self, device, smartrent_device: SmartRentDevice | None = None
+    ):
         """
         Update the indigo device from the SmartRent API.
         """
-        smartrent_device = smartrent_device or self.get_smartrent_device_for_device(device)
-        _updated_data = {key: value for key, value in vars(smartrent_device).items() if key not in ["_client", "_update_callback_funcs"]}
+        smartrent_device = smartrent_device or self.get_smartrent_device_for_device(
+            device
+        )
+        _updated_data = {
+            key: value
+            for key, value in vars(smartrent_device).items()
+            if key not in ["_client", "_update_callback_funcs"]
+        }
         self.logger.debug(f"Received device update: {_updated_data}")
 
-        state_updates = { "online": smartrent_device.get_online() }
+        state_updates = {"online": smartrent_device.get_online()}
 
         if device.deviceTypeId == "thermostat":
             if not isinstance(smartrent_device, SmartRentThermostat):
-                raise TypeError(f"Thermostat '{device.name}' not linked with a SmartRent thermostat!")
-            
-            state_updates.update({
-                "humidityInput1": smartrent_device.get_current_humidity(),
-                "hvacCoolerIsOn": smartrent_device.get_operating_state() == "cooling",
-                "hvacFanMode": SMARTRENT_INDIGO_HVAC_FAN_MODES[smartrent_device.get_fan_mode()],
-                "hvacHeaterIsOn": smartrent_device.get_operating_state() == "heating",
-                "hvacOperationMode": SMARTRENT_INDIGO_HVAC_MODES[smartrent_device.get_mode()],
-                "setpointCool": smartrent_device.get_cooling_setpoint(),
-                "setpointHeat": smartrent_device.get_heating_setpoint(),
-                "temperatureInput1": smartrent_device.get_current_temp()
-            })
+                raise TypeError(
+                    f"Thermostat '{device.name}' not linked with a SmartRent thermostat!"
+                )
+
+            state_updates.update(
+                {
+                    "humidityInput1": smartrent_device.get_current_humidity(),
+                    "hvacCoolerIsOn": smartrent_device.get_operating_state()
+                    == "cooling",
+                    "hvacFanMode": SMARTRENT_INDIGO_HVAC_FAN_MODES[
+                        smartrent_device.get_fan_mode()
+                    ],
+                    "hvacHeaterIsOn": smartrent_device.get_operating_state()
+                    == "heating",
+                    "hvacOperationMode": SMARTRENT_INDIGO_HVAC_MODES[
+                        smartrent_device.get_mode()
+                    ],
+                    "setpointCool": smartrent_device.get_cooling_setpoint(),
+                    "setpointHeat": smartrent_device.get_heating_setpoint(),
+                    "temperatureInput1": smartrent_device.get_current_temp(),
+                }
+            )
         elif device.deviceTypeId == "lock":
             if not isinstance(smartrent_device, SmartRentDoorLock):
-                raise TypeError(f"Lock '{device.name}' not linked with a SmartRent lock!")
+                raise TypeError(
+                    f"Lock '{device.name}' not linked with a SmartRent lock!"
+                )
 
-            state_updates.update({
-                "batteryLevel": smartrent_device.get_battery_level(),
-                "onOffState": smartrent_device.get_locked()
-            })
+            state_updates.update(
+                {
+                    "batteryLevel": smartrent_device.get_battery_level(),
+                    "onOffState": smartrent_device.get_locked(),
+                }
+            )
 
             if smartrent_device.get_locked():
                 device.updateStateImageOnServer(indigo.kStateImageSel.Locked)
@@ -421,7 +480,9 @@ class Plugin(indigo.PluginBase):
                 device.updateStateImageOnServer(indigo.kStateImageSel.Unlocked)
                 device.updateStateOnServer("lockStatus", "unlocked", uiValue="Unlocked")
 
-        device.updateStatesOnServer([{"key": key, "value": value} for key, value in state_updates.items()])
+        device.updateStatesOnServer(
+            [{"key": key, "value": value} for key, value in state_updates.items()]
+        )
 
     ##########################################################################
     # MARK: UI Validation
@@ -513,8 +574,8 @@ class Plugin(indigo.PluginBase):
         """
         if userCancelled:
             return
-            
-        self.setLogLevel(valuesDict.get('log-level', "info"))
+
+        self.setLogLevel(valuesDict.get("log-level", "info"))
 
         self.logger.info("Restart the plugin if credentials have changed.")
 
@@ -531,17 +592,19 @@ class Plugin(indigo.PluginBase):
         """
         valid_log_levels = ["debug", "info", "warning"]
         if level not in valid_log_levels:
-            self.logger.error(u"Attempted to set the log level to an unhandled value: {}".format(level))
+            self.logger.error(
+                f"Attempted to set the log level to an unhandled value: {level}"
+            )
 
         if level == "debug":
             self.indigo_log_handler.setLevel(logging.DEBUG)
-            self.logger.debug(u"Log level set to debug")
+            self.logger.debug("Log level set to debug")
         elif level == "info":
             self.indigo_log_handler.setLevel(logging.INFO)
-            self.logger.info(u"Log level set to info")
+            self.logger.info("Log level set to info")
         elif level == "warning":
             self.indigo_log_handler.setLevel(logging.WARNING)
-            self.logger.warning(u"Log level set to warning")
+            self.logger.warning("Log level set to warning")
 
     ##########################################################################
     # MARK: Callbacks
@@ -554,7 +617,7 @@ class Plugin(indigo.PluginBase):
         :return: the values currently in the ConfigUI
         """
         return valuesDict
-    
+
     def generate_2fa_code(self, valuesDict):
         """
         Callback to check if the 2FA secret generates the expected code.
@@ -586,8 +649,8 @@ class Plugin(indigo.PluginBase):
         if self.api is None:
             return [(-1, "%%disabled:No connection to SmartRent API%%")]
 
-        filter = list(map(lambda item: item.strip(), filter.split(",")))
-        devices = []
+        filter = [item.strip() for item in filter.split(",")]
+        devices: list[SmartRentDevice] = []
 
         if len(filter) == 0:
             devices.extend(self.api.get_device_list())
@@ -608,6 +671,4 @@ class Plugin(indigo.PluginBase):
         if len(devices) == 0:
             return [(-1, "%%disabled:No SmartRent devices found!%%")]
 
-        return list(map(lambda device: (device._device_id, device.get_name()), devices))
-
-        
+        return [(device._device_id, device.get_name()) for device in devices]
