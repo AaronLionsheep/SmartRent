@@ -4,5 +4,10 @@
     "python-envs.pythonProjects": [],
     "cSpell.words": [
         "smartrent"
-    ]
+    ],
+    "editor.codeActionsOnSave": {
+        "source.organizeImports.ruff": "explicit"
+    },
+    "editor.defaultFormatter": "charliermarsh.ruff",
+    "editor.formatOnSave": true
 }

@@ -1,22 +1,24 @@
-import indigo
-import logging
-import aiohttp
 import asyncio
+import logging
 import threading
-
-from functools import partial
-from more_itertools import first
-from json import JSONEncoder, dumps
-
-from typing import Any, TypeVar
 from collections.abc import Coroutine
 from concurrent.futures import Future
+from functools import partial
+from json import JSONEncoder, dumps
+from typing import Any, TypeVar
 
+import aiohttp
+import indigo  # pyright: ignore[reportMissingImports]
+from more_itertools import first
 from pyotp import TOTP
 from smartrent import (
-    async_login,
-    Thermostat as SmartRentThermostat,
     DoorLock as SmartRentDoorLock,
+)
+from smartrent import (
+    Thermostat as SmartRentThermostat,
+)
+from smartrent import (
+    async_login,
 )
 from smartrent.device import Device as SmartRentDevice
 from smartrent.utils import InvalidAuthError
@@ -138,8 +140,8 @@ class Plugin(indigo.PluginBase):
             except TimeoutError:
                 api_login.cancel()
                 self.logger.error("Timed out connecting to SmartRent.")
-            except Exception as e:
-                self.logger.error(f"Unexpected error: {e}", exc_info=True)
+            except Exception:
+                self.logger.exception("Unexpected error")
             else:
                 self.logger.info("Successfully connected to SmartRent API!")
             finally:
@@ -591,7 +593,7 @@ class Plugin(indigo.PluginBase):
         valid_log_levels = ["debug", "info", "warning"]
         if level not in valid_log_levels:
             self.logger.error(
-                "Attempted to set the log level to an unhandled value: {}".format(level)
+                f"Attempted to set the log level to an unhandled value: {level}"
             )
 
         if level == "debug":
@@ -647,8 +649,8 @@ class Plugin(indigo.PluginBase):
         if self.api is None:
             return [(-1, "%%disabled:No connection to SmartRent API%%")]
 
-        filter = list(map(lambda item: item.strip(), filter.split(",")))
-        devices = []
+        filter = [item.strip() for item in filter.split(",")]
+        devices: list[SmartRentDevice] = []
 
         if len(filter) == 0:
             devices.extend(self.api.get_device_list())
@@ -669,4 +671,4 @@ class Plugin(indigo.PluginBase):
         if len(devices) == 0:
             return [(-1, "%%disabled:No SmartRent devices found!%%")]
 
-        return list(map(lambda device: (device._device_id, device.get_name()), devices))
+        return [(device._device_id, device.get_name()) for device in devices]
