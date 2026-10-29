@@ -1,5 +1,39 @@
 # Changelog
 
+## [1.0.5](https://github.com/AaronLionsheep/SmartRent/compare/v1.0.4...v1.0.5) (2026-10-29)
+
+
+### Bug Fixes
+
+* correct device type in door lock error messages ([c463380](https://github.com/AaronLionsheep/SmartRent/commit/c46338009d696d9db248db7b0913facb400d01ed))
+* handle failed SmartRent login during startup ([#61](https://github.com/AaronLionsheep/SmartRent/issues/61)) ([e40bf86](https://github.com/AaronLionsheep/SmartRent/commit/e40bf869491cc5ae61cf553f131614e6d0a36dc7))
+* missing credentials crash on plugin startup ([#58](https://github.com/AaronLionsheep/SmartRent/issues/58)) ([16572d5](https://github.com/AaronLionsheep/SmartRent/commit/16572d54426b2359dd4fae9fa2a4a72cea4a7bae))
+* respond to lock device actions ([#70](https://github.com/AaronLionsheep/SmartRent/issues/70)) ([2ccea5f](https://github.com/AaronLionsheep/SmartRent/commit/2ccea5f88d8993f0dafd192166bd2eee07d76feb))
+* set `IsLockSubType` for lock device ([#63](https://github.com/AaronLionsheep/SmartRent/issues/63)) ([51b345b](https://github.com/AaronLionsheep/SmartRent/commit/51b345b25357f7affe4f51c1ac894e208487ddde))
+* undefined variable in startup login error handler ([#64](https://github.com/AaronLionsheep/SmartRent/issues/64)) ([f9c9a13](https://github.com/AaronLionsheep/SmartRent/commit/f9c9a139840f31ff58ca2dc22a9f070ccbfffce5))
+* validate 2FA secret before generating codes ([#62](https://github.com/AaronLionsheep/SmartRent/issues/62)) ([538c4a8](https://github.com/AaronLionsheep/SmartRent/commit/538c4a8c10d224fe548c9b322540918e3369e80a))
+
+
+### Miscellaneous Chores
+
+* **deps:** pin aiohttp to 3.14.4 ([#57](https://github.com/AaronLionsheep/SmartRent/issues/57)) ([7598393](https://github.com/AaronLionsheep/SmartRent/commit/75983932f4826ce106a4b37568dd71903ebeda2a))
+* **deps:** update actions/setup-python digest to 6d4fd22 ([f927231](https://github.com/AaronLionsheep/SmartRent/commit/f927231a6fc4c2762d856f4b41c3750ef5d8d3b0))
+* **deps:** update actions/setup-python digest to 6d4fd22 ([#45](https://github.com/AaronLionsheep/SmartRent/issues/45)) ([2d4eff4](https://github.com/AaronLionsheep/SmartRent/commit/2d4eff4926caef6638f547f48ee3b14e5d1d7be5))
+* **deps:** update dependency aiohttp to v3.14.5 ([#60](https://github.com/AaronLionsheep/SmartRent/issues/60)) ([5aff467](https://github.com/AaronLionsheep/SmartRent/commit/5aff4679f97fb2d093c3c33e37898abe3abc9231))
+* **deps:** update dependency more-itertools to v11.2.1 ([42989dd](https://github.com/AaronLionsheep/SmartRent/commit/42989dd795b2632d22d936c26c1d69ff0e2bb494))
+* **deps:** update dependency more-itertools to v11.2.1 ([#43](https://github.com/AaronLionsheep/SmartRent/issues/43)) ([647f2ee](https://github.com/AaronLionsheep/SmartRent/commit/647f2eed103a03647ebdc71ecf33c4a1697e09d4))
+* **deps:** update dependency ruff to v0.17.3 ([#66](https://github.com/AaronLionsheep/SmartRent/issues/66)) ([735b21a](https://github.com/AaronLionsheep/SmartRent/commit/735b21a2ffa3ad334a441b1443a4a2a72ffc5fdc))
+* **deps:** update marocchino/sticky-pull-request-comment action to v3.0.5 ([#69](https://github.com/AaronLionsheep/SmartRent/issues/69)) ([320b5fc](https://github.com/AaronLionsheep/SmartRent/commit/320b5fc6aff4b03bde0d09fce33aebb7140c50c4))
+
+
+### Docs
+
+* Add documentation ([#47](https://github.com/AaronLionsheep/SmartRent/issues/47)) ([768c8c6](https://github.com/AaronLionsheep/SmartRent/commit/768c8c6054b904aefdf25b8b51fc5562d7a74bf1))
+* document login and 2FA errors ([#73](https://github.com/AaronLionsheep/SmartRent/issues/73)) ([06097aa](https://github.com/AaronLionsheep/SmartRent/commit/06097aaea6082142427178c30327f31782757197))
+* document Ruff checks ([#74](https://github.com/AaronLionsheep/SmartRent/issues/74)) ([de3b7d6](https://github.com/AaronLionsheep/SmartRent/commit/de3b7d6ccc5f607e781af9a156d7f18c19c58f6f))
+* reload plugin to update device list ([#59](https://github.com/AaronLionsheep/SmartRent/issues/59)) ([7551091](https://github.com/AaronLionsheep/SmartRent/commit/755109171cc613f68b5970353f44e51f82aee6a6))
+* update door lock actions and dependencies ([#75](https://github.com/AaronLionsheep/SmartRent/issues/75)) ([3b8dfc1](https://github.com/AaronLionsheep/SmartRent/commit/3b8dfc10941f92d33f192083e990db06cd824dd3))
+
 ## [1.0.4](https://github.com/AaronLionsheep/SmartRent/compare/v1.0.3...v1.0.4) (2026-07-25)
 
 
