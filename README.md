@@ -41,6 +41,8 @@ If 2FA is already set up and you no longer have the secret, you'll typically nee
 
 Use the **Check 2FA code** button to confirm the secret is correct: the code it shows should match the one in your authenticator app.
 
+Some setup screens show the secret in groups separated by spaces (for example, `ABCD EFGH IJKL MNOP`). Remove the spaces when you enter it in the plugin, or it will be rejected as invalid.
+
 > **Note:** The plugin logs in to SmartRent when it starts. If you change your email, password, or 2FA secret, reload the plugin (**Plugins → SmartRent → Reload**) for the change to take effect.
 
 ## Adding devices
@@ -99,7 +101,11 @@ See the Indigo [scripting tutorial](https://www.indigodomo.com/docs/plugin_scrip
 ## Troubleshooting
 
 - **"The email, password, and 2FA secrets are not configured!"**: open the plugin configuration and fill in all three fields, then reload the plugin.
-- **The SmartRent Device menu says "No connection to SmartRent API"**: the plugin couldn't log in. Check your credentials and use **Check 2FA code** to verify your secret, then reload the plugin.
+- **"SmartRent rejected the login. Check your email, password, and 2FA secret."**: SmartRent didn't accept your credentials. Check your email and password, use **Check 2FA code** to confirm the code matches your authenticator app, then reload the plugin.
+- **"Couldn't reach SmartRent: …"**: the plugin couldn't connect to SmartRent, or SmartRent returned an unexpected response. Check your network connection, wait a few minutes in case SmartRent is having problems, then reload the plugin.
+- **"Timed out connecting to SmartRent."**: SmartRent didn't respond in time. This is usually temporary; reload the plugin to try again.
+- **"Invalid 2FA secret: …"**: shown when you click **Check 2FA code** or save the plugin configuration with a secret that isn't valid. Check that the secret was copied completely, without spaces, and that you used the secret rather than a 6-digit code. See [Finding your 2FA secret](#finding-your-2fa-secret).
+- **The SmartRent Device menu says "No connection to SmartRent API"**: the plugin couldn't log in. Look in the Event Log for one of the login errors above, fix the cause, then reload the plugin.
 - **"No SmartRent device linked to …"**: edit the Indigo device and choose a device from the **SmartRent Device** menu.
 - **A device is missing from the SmartRent Device menu**: the device list is loaded when the plugin starts, so devices added to your SmartRent account afterward won't appear until you reload the plugin. Also check that you picked the right model: the menu only lists SmartRent devices of the selected kind (Door Lock or Thermostat).
 - **Something else**: set the log level to **Debug**, reproduce the problem, and include the relevant Indigo Event Log lines when asking for help.
