@@ -408,14 +408,27 @@ class Plugin(indigo.PluginBase):
                 {
                     "humidityInput1": smartrent_device.get_current_humidity(),
                     "hvacCoolerIsOn": smartrent_device.get_operating_state() == "cooling",
-                    "hvacFanMode": SMARTRENT_INDIGO_HVAC_FAN_MODES[smartrent_device.get_fan_mode()],
                     "hvacHeaterIsOn": smartrent_device.get_operating_state() == "heating",
-                    "hvacOperationMode": SMARTRENT_INDIGO_HVAC_MODES[smartrent_device.get_mode()],
                     "setpointCool": smartrent_device.get_cooling_setpoint(),
                     "setpointHeat": smartrent_device.get_heating_setpoint(),
                     "temperatureInput1": smartrent_device.get_current_temp(),
                 }
             )
+
+            # Only update fan modes that map to Indigo fan modes
+            fan_mode = smartrent_device.get_fan_mode()
+            if fan_mode in SMARTRENT_INDIGO_HVAC_FAN_MODES:
+                state_updates["hvacFanMode"] = SMARTRENT_INDIGO_HVAC_FAN_MODES[fan_mode]
+            else:
+                self.logger.warning(f"Unsupported fan mode from SmartRent for '{device.name}': {fan_mode}")
+
+            # Only update HVAC modes that map to Indigo HVAC modes
+            hvac_mode = smartrent_device.get_mode()
+            if fan_mode in SMARTRENT_INDIGO_HVAC_MODES:
+                state_updates["hvacOperationMode"] = SMARTRENT_INDIGO_HVAC_MODES[hvac_mode]
+            else:
+                self.logger.warning(f"Unsupported HVAC mode from SmartRent for '{device.name}': {hvac_mode}")
+
         elif device.deviceTypeId == "lock":
             if not isinstance(smartrent_device, SmartRentDoorLock):
                 raise TypeError(f"Lock '{device.name}' not linked with a SmartRent lock!")
