@@ -424,7 +424,7 @@ class Plugin(indigo.PluginBase):
 
             # Only update HVAC modes that map to Indigo HVAC modes
             hvac_mode = smartrent_device.get_mode()
-            if fan_mode in SMARTRENT_INDIGO_HVAC_MODES:
+            if hvac_mode in SMARTRENT_INDIGO_HVAC_MODES:
                 state_updates["hvacOperationMode"] = SMARTRENT_INDIGO_HVAC_MODES[hvac_mode]
             else:
                 self.logger.warning(f"Unsupported HVAC mode from SmartRent for '{device.name}': {hvac_mode}")
