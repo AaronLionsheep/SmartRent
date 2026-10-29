@@ -214,7 +214,7 @@ class Plugin(indigo.PluginBase):
 
         # Update the Indigo device on each SmartRent update
         update_handler = partial(
-            self.update_device_from_smartrent,
+            self.handle_smartrent_update,
             device=device,
             smartrent_device=smartrent_device,
         )
@@ -401,6 +401,19 @@ class Plugin(indigo.PluginBase):
 
         return smartrent_device
 
+    def handle_smartrent_update(self, device, smartrent_device: SmartRentDevice):
+        """
+        Callback for live SmartRent updates.
+
+        smartrent-py runs update callbacks inside its websocket loop and treats any exception as a broken connection,
+        dropping and reconnecting the websocket for every device. Errors are logged here instead so one failing device
+        can't interrupt updates for the others.
+        """
+        try:
+            self.update_device_from_smartrent(device=device, smartrent_device=smartrent_device)
+        except Exception:
+            self.logger.exception(f"Failed to update '{device.name}' from SmartRent")
+
     def update_device_from_smartrent(self, device, smartrent_device: SmartRentDevice | None = None):
         """
         Update the indigo device from the SmartRent API.
@@ -420,7 +433,10 @@ class Plugin(indigo.PluginBase):
 
         if device.deviceTypeId == "thermostat":
             if not isinstance(smartrent_device, SmartRentThermostat):
-                raise TypeError(f"Thermostat '{device.name}' not linked with a SmartRent thermostat!")
+                self.logger.error(
+                    f"The SmartRent device associated with '{device.name}' was not found to be a SmartRent Thermostat!"
+                )
+                return
 
             state_updates.update(
                 {
@@ -449,7 +465,10 @@ class Plugin(indigo.PluginBase):
 
         elif device.deviceTypeId == "lock":
             if not isinstance(smartrent_device, SmartRentDoorLock):
-                raise TypeError(f"Lock '{device.name}' not linked with a SmartRent lock!")
+                self.logger.error(
+                    f"The SmartRent device associated with '{device.name}' was not found to be a SmartRent Door Lock!"
+                )
+                return
 
             state_updates.update(
                 {
