@@ -293,10 +293,10 @@ class Plugin(indigo.PluginBase):
                 )
                 return
 
-            if action.deviceAction == indigo.kDeviceAction.TurnOn:
+            if action.deviceAction == indigo.kDeviceAction.Lock:
                 self.run(smartrent_device.async_set_locked(True))
 
-            elif action.deviceAction == indigo.kDeviceAction.TurnOff:
+            elif action.deviceAction == indigo.kDeviceAction.Unlock:
                 self.run(smartrent_device.async_set_locked(False))
 
     def actionControlUniversal(self, action, device):
