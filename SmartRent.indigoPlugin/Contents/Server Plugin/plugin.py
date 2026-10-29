@@ -207,7 +207,6 @@ class Plugin(indigo.PluginBase):
 
         smartrent_device = self.get_smartrent_device_for_device(device)
         if not smartrent_device:
-            self.logger.error(f"No SmartRent device linked to '{device.name}'!")
             return
 
         # Update the indigo device with the current SmartRent state
@@ -285,7 +284,6 @@ class Plugin(indigo.PluginBase):
         """
         smartrent_device = self.get_smartrent_device_for_device(device)
         if not smartrent_device:
-            self.logger.error(f"No SmartRent device linked to '{device.name}'!")
             return
 
         if device.deviceTypeId == "lock":
@@ -312,7 +310,6 @@ class Plugin(indigo.PluginBase):
         """
         smartrent_device = self.get_smartrent_device_for_device(device)
         if not smartrent_device:
-            self.logger.error(f"No SmartRent device linked to '{device.name}'!")
             return
 
         if action.deviceAction == indigo.kUniversalAction.RequestStatus:
@@ -328,7 +325,6 @@ class Plugin(indigo.PluginBase):
         """
         smartrent_device = self.get_smartrent_device_for_device(device)
         if not smartrent_device:
-            self.logger.error(f"No SmartRent device linked to '{device.name}'!")
             return
 
         if not isinstance(smartrent_device, SmartRentThermostat):
@@ -384,17 +380,29 @@ class Plugin(indigo.PluginBase):
         -------
         device: SmartRentDevice | None
             The associated SmartRent device. None is returned when no SmartRent device is associated.
-
-        Raises
-        ------
-        ValueError: When there is no associated SmartRent device.
         """
         if self.api is None:
-            raise ValueError("No connection to SmartRent API")
+            self.logger.error(f"Can't reach '{device.name}': not connected to SmartRent.")
+            return None
 
-        smartrent_device_id = int(device.pluginProps.get("smartrent-device", 0))
-        smartrent_devices = self.api.get_device_list()
-        return first(filter(lambda device: device._device_id == smartrent_device_id, smartrent_devices), default=None)
+        try:
+            smartrent_device_id = int(device.pluginProps.get("smartrent-device", 0))
+        except ValueError:
+            smartrent_device_id = 0
+
+        # Get the first SmartRent device that matches the desired id
+        smartrent_device = first(
+            [
+                smartrent_device
+                for smartrent_device in self.api.get_device_list()
+                if smartrent_device._device_id == smartrent_device_id
+            ],
+            default=None,
+        )
+
+        if smartrent_device is None:
+            self.logger.error(f"No SmartRent device linked to '{device.name}'!")
+        return smartrent_device
 
     def update_device_from_smartrent(self, device, smartrent_device: SmartRentDevice | None = None):
         """
@@ -402,7 +410,6 @@ class Plugin(indigo.PluginBase):
         """
         smartrent_device = smartrent_device or self.get_smartrent_device_for_device(device)
         if not smartrent_device:
-            self.logger.error(f"No SmartRent device linked to '{device.name}'!")
             return
 
         _updated_data = {
