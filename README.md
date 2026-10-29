@@ -14,7 +14,7 @@ An [Indigo](https://www.indigodomo.com) plugin that brings your [SmartRent](http
 - Indigo 2023.2 or later (the plugin targets Indigo Server API 3.4 and Python 3.11+).
 - A SmartRent resident account with **two-factor authentication enabled through an authenticator app**. The plugin needs the authenticator *secret*, not a one-time code (see [Configuration](#configuration)).
 
-Python dependencies ([smartrent-py](https://github.com/ZacheryThomas/smartrent.py), [pyotp](https://pyauth.github.io/pyotp/) and [more-itertools](https://more-itertools.readthedocs.io/)) are listed in the plugin's `requirements.txt` and are installed by Indigo automatically when the plugin is enabled.
+Python dependencies ([smartrent-py](https://github.com/ZacheryThomas/smartrent.py), [aiohttp](https://docs.aiohttp.org/), [pyotp](https://pyauth.github.io/pyotp/) and [more-itertools](https://more-itertools.readthedocs.io/)) are listed in the plugin's `requirements.txt` and are installed by Indigo automatically when the plugin is enabled.
 
 ## Installation
 
@@ -56,7 +56,7 @@ Some setup screens show the secret in groups separated by spaces (for example, `
 
 ### Door Lock
 
-Door locks are Indigo relay devices with the lock subtype. **Turn On** locks the door and **Turn Off** unlocks it, so the standard Indigo lock/unlock controls and actions work as expected.
+Door locks are Indigo relay devices with the lock subtype, so Indigo shows them with lock and unlock controls. Use the **Lock** and **Unlock** actions to control them.
 
 | State | Description |
 |---|---|
@@ -90,7 +90,7 @@ From a Python script in Indigo, the standard device commands work too:
 
 ```python
 lock = indigo.devices["Front Door"]
-indigo.device.turnOn(lock)  # lock the door
+indigo.device.lock(lock)
 
 thermostat = indigo.devices["Living Room Thermostat"]
 indigo.thermostat.setHeatSetpoint(thermostat, value=68)
