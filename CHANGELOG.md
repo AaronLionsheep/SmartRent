@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.6](https://github.com/AaronLionsheep/SmartRent/compare/v1.0.5...v1.0.6) (2026-10-29)
+
+
+### Bug Fixes
+
+* Action handlers don't handle an unlinked SmartRent device ([#78](https://github.com/AaronLionsheep/SmartRent/issues/78)) ([508b754](https://github.com/AaronLionsheep/SmartRent/commit/508b7541b023259cabffc11cb391ac670f556c0c))
+* handle unknown thermostat modes during updates ([#76](https://github.com/AaronLionsheep/SmartRent/issues/76)) ([8d8c0cc](https://github.com/AaronLionsheep/SmartRent/commit/8d8c0cc47b500c70828d173d84a0ea332d517033))
+
 ## [1.0.5](https://github.com/AaronLionsheep/SmartRent/compare/v1.0.4...v1.0.5) (2026-10-29)
 
 
