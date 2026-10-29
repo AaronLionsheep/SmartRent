@@ -22,9 +22,9 @@
                 <List class="self" filter="thermostat" method="get_smartrent_devices"/>
             </Field>
 
-						<Field id="refresh-hint" type="label" fontSize="small" fontColor="darkgray">
-						    <Label>Don't see a new device? Reload the plugin to refresh the list.</Label>
-						</Field>
+            <Field id="refresh-hint" type="label" fontSize="small" fontColor="darkgray">
+                <Label>Don't see a new device? Reload the plugin to refresh the list.</Label>
+            </Field>
         </ConfigUI>
         <States>
             <State id="online">
@@ -42,16 +42,16 @@
             <Field type="checkbox" id="SupportsStatusRequest" defaultValue="true" hidden="true" />
             <Field type="checkbox" id="SupportsOnState" defaultValue="false" hidden="true" />
             <Field type="checkbox" id="AllowOnStateChange" defaultValue="false" hidden="true" />
-						<Field type="checkbox" id="IsLockSubType" defaultValue="true" hidden="true" />
+            <Field type="checkbox" id="IsLockSubType" defaultValue="true" hidden="true" />
 
             <Field id="smartrent-device" type="menu">
                 <Label>SmartRent Device:</Label>
                 <List class="self" filter="lock" method="get_smartrent_devices"/>
             </Field>
 
-						<Field id="refresh-hint" type="label" fontSize="small" fontColor="darkgray">
-						    <Label>Don't see a new device? Reload the plugin to refresh the list.</Label>
-						</Field>
+            <Field id="refresh-hint" type="label" fontSize="small" fontColor="darkgray">
+                <Label>Don't see a new device? Reload the plugin to refresh the list.</Label>
+            </Field>
         </ConfigUI>
         <States>
             <State id="online">
