@@ -392,16 +392,13 @@ class Plugin(indigo.PluginBase):
 
         # Get the first SmartRent device that matches the desired id
         smartrent_device = first(
-            [
-                smartrent_device
-                for smartrent_device in self.api.get_device_list()
-                if smartrent_device._device_id == smartrent_device_id
-            ],
+            (d for d in self.api.get_device_list() if d._device_id == smartrent_device_id),
             default=None,
         )
 
         if smartrent_device is None:
             self.logger.error(f"No SmartRent device linked to '{device.name}'!")
+
         return smartrent_device
 
     def update_device_from_smartrent(self, device, smartrent_device: SmartRentDevice | None = None):
