@@ -205,11 +205,10 @@ class Plugin(indigo.PluginBase):
         """
         self.logger.debug(f"Starting {device.name}...")
 
-        try:
-            smartrent_device = self.get_smartrent_device_for_device(device)
-        except ValueError:
+        smartrent_device = self.get_smartrent_device_for_device(device)
+        if not smartrent_device:
             self.logger.error(f"No SmartRent device linked to '{device.name}'!")
-            return False
+            return
 
         # Update the indigo device with the current SmartRent state
         self.update_device_from_smartrent(device=device, smartrent_device=smartrent_device)
@@ -285,6 +284,10 @@ class Plugin(indigo.PluginBase):
         :return: None
         """
         smartrent_device = self.get_smartrent_device_for_device(device)
+        if not smartrent_device:
+            self.logger.error(f"No SmartRent device linked to '{device.name}'!")
+            return
+
         if device.deviceTypeId == "lock":
             # lock devices can only be represented by the SmartRent DoorLock class
             if not isinstance(smartrent_device, SmartRentDoorLock):
@@ -308,6 +311,9 @@ class Plugin(indigo.PluginBase):
         :return: None
         """
         smartrent_device = self.get_smartrent_device_for_device(device)
+        if not smartrent_device:
+            self.logger.error(f"No SmartRent device linked to '{device.name}'!")
+            return
 
         if action.deviceAction == indigo.kUniversalAction.RequestStatus:
             self.run(smartrent_device._async_fetch_state())
@@ -321,6 +327,10 @@ class Plugin(indigo.PluginBase):
         :return: None
         """
         smartrent_device = self.get_smartrent_device_for_device(device)
+        if not smartrent_device:
+            self.logger.error(f"No SmartRent device linked to '{device.name}'!")
+            return
+
         if not isinstance(smartrent_device, SmartRentThermostat):
             self.logger.error(
                 f"The SmartRent device associated with '{device.name}' was not found to be a SmartRent Thermostat!"
@@ -361,7 +371,7 @@ class Plugin(indigo.PluginBase):
     # MARK: SmartRent
     ##########################################################################
 
-    def get_smartrent_device_for_device(self, device) -> SmartRentDevice:
+    def get_smartrent_device_for_device(self, device) -> SmartRentDevice | None:
         """
         Gets the associated SmartRent Device instance for the Indigo device.
 
@@ -372,8 +382,8 @@ class Plugin(indigo.PluginBase):
 
         Returns
         -------
-        device: SmartRentDevice
-            The associated SmartRent device.
+        device: SmartRentDevice | None
+            The associated SmartRent device. None is returned when no SmartRent device is associated.
 
         Raises
         ------
@@ -384,13 +394,17 @@ class Plugin(indigo.PluginBase):
 
         smartrent_device_id = int(device.pluginProps.get("smartrent-device", 0))
         smartrent_devices = self.api.get_device_list()
-        return first(filter(lambda d: d._device_id == smartrent_device_id, smartrent_devices))
+        return first(filter(lambda device: device._device_id == smartrent_device_id, smartrent_devices), default=None)
 
     def update_device_from_smartrent(self, device, smartrent_device: SmartRentDevice | None = None):
         """
         Update the indigo device from the SmartRent API.
         """
         smartrent_device = smartrent_device or self.get_smartrent_device_for_device(device)
+        if not smartrent_device:
+            self.logger.error(f"No SmartRent device linked to '{device.name}'!")
+            return
+
         _updated_data = {
             key: value
             for key, value in vars(smartrent_device).items()
