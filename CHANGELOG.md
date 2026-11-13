@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.0.7](https://github.com/AaronLionsheep/SmartRent/compare/v1.0.6...v1.0.7) (2026-11-13)
+
+
+### Bug Fixes
+
+* keep one device's update error from interrupting live updates ([#80](https://github.com/AaronLionsheep/SmartRent/issues/80)) ([c06288b](https://github.com/AaronLionsheep/SmartRent/commit/c06288b34996e9c77fdc676eee1ea00a08e0ce13))
+
+
+### Miscellaneous Chores
+
+* **deps:** update amannn/action-semantic-pull-request action to v6.1.2 ([#83](https://github.com/AaronLionsheep/SmartRent/issues/83)) ([72b7270](https://github.com/AaronLionsheep/SmartRent/commit/72b7270c43cdc15e739b6148c8e0079161325206))
+* **deps:** update dependency ruff to v0.17.4 ([#84](https://github.com/AaronLionsheep/SmartRent/issues/84)) ([67955c4](https://github.com/AaronLionsheep/SmartRent/commit/67955c42fc02a02bf413fc072c82480fc3745cf8))
+* **deps:** update dependency ruff to v0.17.5 ([#86](https://github.com/AaronLionsheep/SmartRent/issues/86)) ([f9078c5](https://github.com/AaronLionsheep/SmartRent/commit/f9078c5e60f2f5b0818657c3aafbb8265b0bfd47))
+
 ## [1.0.6](https://github.com/AaronLionsheep/SmartRent/compare/v1.0.5...v1.0.6) (2026-10-29)
 
 
