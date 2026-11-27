@@ -1,5 +1,26 @@
 # Changelog
 
+## [1.0.7](https://github.com/AaronLionsheep/SmartRent/compare/v1.0.6...v1.0.7) (2026-11-27)
+
+
+### Bug Fixes
+
+* keep one device's update error from interrupting live updates ([#80](https://github.com/AaronLionsheep/SmartRent/issues/80)) ([c06288b](https://github.com/AaronLionsheep/SmartRent/commit/c06288b34996e9c77fdc676eee1ea00a08e0ce13))
+
+
+### Miscellaneous Chores
+
+* **deps:** update amannn/action-semantic-pull-request action to v6.1.2 ([#83](https://github.com/AaronLionsheep/SmartRent/issues/83)) ([72b7270](https://github.com/AaronLionsheep/SmartRent/commit/72b7270c43cdc15e739b6148c8e0079161325206))
+* **deps:** update amannn/action-semantic-pull-request action to v6.1.3 ([#91](https://github.com/AaronLionsheep/SmartRent/issues/91)) ([c472535](https://github.com/AaronLionsheep/SmartRent/commit/c472535c4eb403e228900b3e5161314e534a5ec9))
+* **deps:** update amannn/action-semantic-pull-request action to v6.1.4 ([#93](https://github.com/AaronLionsheep/SmartRent/issues/93)) ([53b0fc2](https://github.com/AaronLionsheep/SmartRent/commit/53b0fc21bcaa3d0852a5d8dd406eafc4e58bf34a))
+* **deps:** update dependency pyotp to v2.11.1 ([#87](https://github.com/AaronLionsheep/SmartRent/issues/87)) ([7aa7a84](https://github.com/AaronLionsheep/SmartRent/commit/7aa7a84fb87215e6b05e39b80e597f99ad06554e))
+* **deps:** update dependency pyotp to v2.11.2 ([#88](https://github.com/AaronLionsheep/SmartRent/issues/88)) ([aa54b13](https://github.com/AaronLionsheep/SmartRent/commit/aa54b13888220ae60939b761b2789dbd1ca99652))
+* **deps:** update dependency pyotp to v2.12.1 ([#89](https://github.com/AaronLionsheep/SmartRent/issues/89)) ([aa0943e](https://github.com/AaronLionsheep/SmartRent/commit/aa0943ee885022e94e11a11bbbdd1abe605f62d4))
+* **deps:** update dependency pyotp to v2.12.2 ([#94](https://github.com/AaronLionsheep/SmartRent/issues/94)) ([3590520](https://github.com/AaronLionsheep/SmartRent/commit/35905205242cf9d8ee58c4491007eb31fb8bab42))
+* **deps:** update dependency ruff to v0.17.4 ([#84](https://github.com/AaronLionsheep/SmartRent/issues/84)) ([67955c4](https://github.com/AaronLionsheep/SmartRent/commit/67955c42fc02a02bf413fc072c82480fc3745cf8))
+* **deps:** update dependency ruff to v0.17.5 ([#86](https://github.com/AaronLionsheep/SmartRent/issues/86)) ([f9078c5](https://github.com/AaronLionsheep/SmartRent/commit/f9078c5e60f2f5b0818657c3aafbb8265b0bfd47))
+* **deps:** update dependency ruff to v0.17.6 ([#90](https://github.com/AaronLionsheep/SmartRent/issues/90)) ([e21b395](https://github.com/AaronLionsheep/SmartRent/commit/e21b395a7a7c1ba443733f4736b66e8f47a6952c))
+
 ## [1.0.6](https://github.com/AaronLionsheep/SmartRent/compare/v1.0.5...v1.0.6) (2026-10-29)
 
 
