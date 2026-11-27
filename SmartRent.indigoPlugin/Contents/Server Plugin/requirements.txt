@@ -1,4 +1,4 @@
 smartrent-py==0.5.2
 aiohttp==3.14.5
-pyotp==2.12.1
+pyotp==2.12.2
 more-itertools==11.2.1
